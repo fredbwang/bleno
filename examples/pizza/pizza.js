@@ -1,5 +1,13 @@
 var util = require('util');
 var events = require('events');
+var jsonfile1 = require('/home/pi/SPI-Py/MFRC522-python/data/data.json');
+var fs = require("fs");
+var jsonfile = fs.readFileSync("/home/pi/SPI-Py/MFRC522-python/data/data.json");
+var jsonContent = JSON.parse(jsonfile)
+
+console.log(jsonContent);
+
+var id = 0;
 
 var PizzaCrust = {
   NORMAL:    0,
@@ -20,10 +28,10 @@ var PizzaToppings = {
 };
 
 var PizzaBakeResult = {
-  HALF_BAKED: 0,
+  HALFBAKED:  jsonContent[912117634230][1],
   BAKED:      1,
   CRISPY:     2,
-  BURNT:      3,
+  BURNT:      jsonContent[10111520174149],
   ON_FIRE:    4
 };
 
@@ -35,17 +43,24 @@ function Pizza() {
 
 util.inherits(Pizza, events.EventEmitter);
 
-Pizza.prototype.bake = function(temperature) {
-  var time = temperature * 10;
+Pizza.prototype.bake = function(item) {
+  var time = item * 10;
   var self = this;
-  console.log('baking pizza at', temperature, 'degrees for', time, 'milliseconds');
+  console.log('item', item, 'is requested for its location');
   setTimeout(function() {
+    var newjsonfile = fs.readFileSync("/home/pi/SPI-Py/MFRC522-python/data/data.json");
+    var newjsonContent = JSON.parse(newjsonfile)
+
+    console.log('item1:', newjsonContent[912117634230])
+    console.log('item2:', newjsonContent[10111520174149])
     var result =
-      (temperature < 350) ? PizzaBakeResult.HALF_BAKED:
-      (temperature < 450) ? PizzaBakeResult.BAKED:
-      (temperature < 500) ? PizzaBakeResult.CRISPY:
-      (temperature < 600) ? PizzaBakeResult.BURNT:
-                            PizzaBakeResult.ON_FIRE;
+      (item == 1) ? newjsonContent[10111520174149]:
+      (item == 3) ? newjsonContent[10111520174149][1]:
+      (item == 2) ? newjsonContent[912117634230]:
+      (item == 4) ? newjsonContent[912117634230][1]:
+      (item == 5) ? "-1":
+      (item == 6) ? "1":
+                    PizzaBakeResult.ON_FIRE;
     self.emit('ready', result);
   }, time);
 };
@@ -54,3 +69,4 @@ module.exports.Pizza = Pizza;
 module.exports.PizzaToppings = PizzaToppings;
 module.exports.PizzaCrust = PizzaCrust;
 module.exports.PizzaBakeResult = PizzaBakeResult;
+module.exports.PizzaBakeResult = jsonContent;

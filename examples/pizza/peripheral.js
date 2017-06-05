@@ -22,7 +22,7 @@ var PizzaService = require('./pizza-service');
 //
 // A name to advertise our Pizza Service.
 //
-var name = 'PizzaSquat';
+var name = 'lost and found';
 var pizzaService = new PizzaService(new pizza.Pizza());
 
 //
@@ -48,7 +48,7 @@ bleno.on('stateChange', function(state) {
 
 bleno.on('advertisingStart', function(err) {
   if (!err) {
-    console.log('advertising...');
+    console.log('awaiting object finding requests...');
     //
     // Once we are advertising, it's time to set up our services,
     // along with our characteristics.
