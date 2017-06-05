@@ -51,8 +51,9 @@ Pizza.prototype.bake = function(item) {
     var newjsonfile = fs.readFileSync("/home/pi/SPI-Py/MFRC522-python/data/data.json");
     var newjsonContent = JSON.parse(newjsonfile)
 
-    console.log('item1:', newjsonContent[912117634230])
-    console.log('item2:', newjsonContent[10111520174149])
+    console.log('item1:', newjsonContent[10111520174149])
+    console.log('item2:', newjsonContent[912117634230])
+
     var result =
       (item == 1) ? newjsonContent[10111520174149]:
       (item == 3) ? newjsonContent[10111520174149][1]:
